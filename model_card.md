@@ -292,7 +292,8 @@ Prompts:
 - Improving diversity among the top results
 - Handling more complex user tastes
 
-I would add more entries for user preferences, such as ranked genre/mood pref rather than just one and the preferred energy as a range rather than a specific value. This would help in curating a better recommendation system for the user.
+
+* I would add more entries for user preferences, such as ranked genre/mood pref rather than just one and the preferred energy as a range rather than a specific value. This would help in curating a better recommendation system for the user.
 Collecting data for more users and making comparisons could also help in incorporating collaborative system for a more diverse but reliable recommendation system
 We can also include logic that takes user feedback such as likes or skips and adjusts the feature weights accordingly
 ---

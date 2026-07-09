@@ -39,10 +39,12 @@ Prompts:
 Avoid code here. Pretend you are explaining the idea to a friend who does not program.
 
 
-- The song features I used, in order of their weight, are: genre(+2), mood(+1), energy(closeness value) and acousticness(+0.5)
+The song features I used, in order of their weight, are: genre(+2), mood(+1), energy(closeness value) and acousticness(+0.5)
 Similar user preferences are considered: favorite_genre, favorite_mood, target_energy and likes_acoustic; in order to be able to make the comparisons and calculate the song scores catered for each individual.
-- Our model sums up all feature scores into a cumulative song score that we can then use in ranking to determine the ones to recommmend based on their values
-- In the starter logic, I had included tempo, valence and danceability but realized in summing, their cumulative score led to a significant weight that could overpower genre match and mood in determining the scores.
+
+Our model sums up all feature scores into a cumulative song score that we can then use in ranking to determine the ones to recommmend based on their values
+
+In the starter logic, I had included tempo, valence and danceability but realized in summing, their cumulative score led to a significant weight that could overpower genre match and mood in determining the scores.
 
 ---
 
@@ -58,10 +60,13 @@ Prompts:
 - Are there parts of musical taste missing in the dataset
 
 
-- there are now 18 songs in the catalog; there were originally 10 songs, I added 8 more
-- The genres represented are: lofi, pop and one each for rock, ambient, jazz, indie pop, classical, edm, folk, r&b, metal, country, reggae
-- the moods represented are: chill, happy, intense, and one each for relaxed, moody, focused, aggressive, melancholy, energetic, nostalgic, romantic, dark, uplifting, carefree
-- some musical tastes missing include maybe language, and instrumental vs vocal preference
+there are now 18 songs in the catalog; there were originally 10 songs, I added 8 more
+
+The genres represented are: lofi, pop and one each for rock, ambient, jazz, indie pop, classical, edm, folk, r&b, metal, country, reggae
+
+the moods represented are: chill, happy, intense, and one each for relaxed, moody, focused, aggressive, melancholy, energetic, nostalgic, romantic, dark, uplifting, carefree
+
+some musical tastes missing include maybe language, and instrumental vs vocal preference
 
 --- 
 

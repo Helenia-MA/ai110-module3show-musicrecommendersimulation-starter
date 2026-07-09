@@ -29,6 +29,20 @@ Some prompts to answer:
 
 You can include a simple diagram or bullet list if helpful.
 
+- Real-world recommender systems work by utilizing a hybrid of the recommendation systems to curate a list of recommended items for a given user. Since they have a lot of data gathered it is easier to cross check and find users with similar interests or a specific user's tastes to use as inputs for the recommendation systems.
+
+- In our case, I'll focus more on content-based system since we are currently working with data for an individual user.
+* User profile stores: favorite_genre, favorite_mood, target_energy, likes_acoustic
+  * for the song's energy feature, the formula I'll use for a scoring value is:
+    closeness = 1 - |song_energy - target_energy| to get a [0,1] scale
+  * for the categorical data, we'll weigh genre above mood thus the weights we'll use is +2.0 in the score for every matching genre and +1.0 for every matching mood
+  * for acousticness, I'll convert the song's value to boolean based on whether it's greater than the threshold 0.5. then have +0.5 for matching acousticness
+  * For ranking, I'd then sort the songs in descending order based off their scores, filter out the heard songs and use alphabetical order to break a tie and recommend the first n songs.
+  (2.0(genre) + 1.0(mood) + 1.0(energy) + 0.5(acoustic))
+
+  Potential biases: the system may over prioritize genre making it highly possible for a song with matching mood and similar energy but different genre to get buried
+  the acoustic cutoff point renders similar songs one with say 0.49 and another 0.51 in different categories making one earn +0.5 points while the other doesn't.
+
 ---
 
 ## Getting Started
@@ -71,12 +85,25 @@ You can add more tests in `tests/test_recommender.py`.
 Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
 
 ```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
+# Loaded songs: 18
+User profile: genre=pop, mood=happy, energy=0.8, likes_acoustic=False
+
+Top recommendations:
+
+1. Sunrise City - Score: 4.48
+Reason: genre match (+2.0); mood match (+1.0); energy closeness (+0.98); acoustic match (+0.5)
+
+2. Gym Hero - Score: 3.37
+Reason: genre match (+2.0); energy closeness (+0.87); acoustic match (+0.5)
+
+3. Rooftop Lights - Score: 2.46
+Reason: mood match (+1.0); energy closeness (+0.96); acoustic match (+0.5)
+
+4. Concrete Jungle - Score: 1.50
+Reason: energy closeness (+1.00); acoustic match (+0.5)
+
+5. Night Drive Loop - Score: 1.45
+Reason: energy closeness (+0.95); acoustic match (+0.5)
 ```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
@@ -117,6 +144,3 @@ Write 1 to 2 paragraphs here about what you learned:
 
 - about how recommenders turn data into predictions
 - about where bias or unfairness could show up in systems like this
-
-
-

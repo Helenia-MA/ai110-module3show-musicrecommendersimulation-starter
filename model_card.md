@@ -4,6 +4,7 @@
 
 Give your model a short, descriptive name.
 Example: **VibeFinder 1.0**
+
 "EarWorm 1.0"
 ---
 
@@ -16,11 +17,11 @@ Prompts:
 - What kind of recommendations does it generate
 - What assumptions does it make about the user
 - Is this for real users or classroom exploration
-
+  
+---
 It recommends a list of songs for a user based on their preference; solely uses content-based recommendation system.
 In this case, genre carries the most weight, then mood matches and energy similarity and finally the acousticness of the song.
 We've made a simple system mainly for classroom exploration; the user can only fill in one entry for each feature which doesn't really efficiently map out to how real-life systems work with people having maybe a range for energy and maybe ranked favorite genres and moods to allow for a more diverse and accurate recommendation system
----
 
 ## 3. How the Model Works
 
@@ -35,12 +36,13 @@ Prompts:
 
 Avoid code here. Pretend you are explaining the idea to a friend who does not program.
 
+---
+
 - The song features I used, in order of their weight, are: genre(+2), mood(+1), energy(closeness value) and acousticness(+0.5)
 Similar user preferences are considered: favorite_genre, favorite_mood, target_energy and likes_acoustic; in order to be able to make the comparisons and calculate the song scores catered for each individual.
 - Our model sums up all feature scores into a cumulative song score that we can then use in ranking to determine the ones to recommmend based on their values
 - In the starter logic, I had included tempo, valence and danceability but realized in summing, their cumulative score led to a significant weight that could overpower genre match and mood in determining the scores.
 
----
 
 ## 4. Data
 
@@ -53,12 +55,12 @@ Prompts:
 - Did you add or remove data
 - Are there parts of musical taste missing in the dataset
 
+---
+
 - there are now 18 songs in the catalog; there were originally 10 songs, I added 8 more
 - The genres represented are: lofi, pop and one each for rock, ambient, jazz, indie pop, classical, edm, folk, r&b, metal, country, reggae
 - the moods represented are: chill, happy, intense, and one each for relaxed, moody, focused, aggressive, melancholy, energetic, nostalgic, romantic, dark, uplifting, carefree
 - some musical tastes missing include maybe language, and instrumental vs vocal preference
-
----
 
 ## 5. Strengths
 
@@ -70,9 +72,8 @@ Prompts:
 - Any patterns you think your scoring captures correctly
 - Cases where the recommendations matched your intuition
 
-The strength of the system is found when a user's genre and mood both exist in the catalog, the 2.0 genre weight reliably dominates and the recommended songs are thus reliable too.
-
 ---
+The strength of the system is found when a user's genre and mood both exist in the catalog, the 2.0 genre weight reliably dominates and the recommended songs are thus reliable too.
 
 ## 6. Limitations and Bias
 

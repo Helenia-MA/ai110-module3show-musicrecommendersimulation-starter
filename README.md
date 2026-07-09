@@ -11,7 +11,10 @@ Your goal is to:
 - Evaluate what your system gets right and wrong
 - Reflect on how this mirrors real world AI recommenders
 
-Replace this paragraph with your own summary of what your version does.
+In this recommendation system,  the song features I used, in order of their weight, are: genre(+2), mood(+1), energy(closeness value) and acousticness(+0.5)
+Similar user preferences are considered: favorite_genre, favorite_mood, target_energy and likes_acoustic; in order to be able to make the comparisons and calculate the song scores catered for each individual.
+- Our model sums up all feature scores into a cumulative song score that we can then use in ranking to determine the ones to recommmend based on their values
+- Since genre is usually a big factor to consider while recommending, the system works well by applying the largest weight for it but not too much for it to overshadow the other features.
 
 ---
 
@@ -119,6 +122,7 @@ Use this section to document the experiments you ran. For example:
 - How did your system behave for different types of users
 
 ---
+when I change the weight from 2.0 to 0.5, more genre variety surfaces in the recommended list. However, while it increases diversity, since genre is usually a huge factor in a user's preferences, the recommended list isn't necessarily better or more attuned to what one would love in real-life
 
 ## Limitations and Risks
 
@@ -133,6 +137,7 @@ Examples:
 You will go deeper on this in your model card.
 
 ---
+it over favors represented genres and moods.
 
 ## Reflection
 
@@ -144,3 +149,4 @@ Write 1 to 2 paragraphs here about what you learned:
 
 - about how recommenders turn data into predictions
 - about where bias or unfairness could show up in systems like this
+I learnt that some features tend to weigh more and determine recommended songs a bit more compared to others and that the recommendation system is a dynamic one, that is highly dependent on the feedback loop for it to work well. I also learnt that the data available plays a huge role in the recommendations algorithm and may create biases depending on what is mostly represented and what isn't

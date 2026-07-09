@@ -90,6 +90,8 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
         reasons.append("mood match (+1.0)")
 
     # Energy: closeness = 1 - |song_energy - target_energy|, on a [0, 1] scale.
+    # Both song energy and target_energy are guaranteed in [0, 1] by the data
+    # spec, so closeness always lands in [0, 1].
     closeness = 1.0 - abs(song["energy"] - user_prefs["target_energy"])
     energy_points = 1.0 * closeness
     score += energy_points

@@ -40,11 +40,12 @@ You can include a simple diagram or bullet list if helpful.
     closeness = 1 - |song_energy - target_energy| to get a [0,1] scale
   * for the categorical data, we'll weigh genre above mood thus the weights we'll use is +2.0 in the score for every matching genre and +1.0 for every matching mood
   * for acousticness, I'll convert the song's value to boolean based on whether it's greater than the threshold 0.5. then have +0.5 for matching acousticness
-  * For ranking, I'd then sort the songs in descending order based off their scores, filter out the heard songs and use alphabetical order to break a tie and recommend the first n songs.
+  * For ranking, I'd then sort the songs in descending order based off their scores, and use alphabetical order to break a tie and recommend the first n songs.
   (2.0(genre) + 1.0(mood) + 1.0(energy) + 0.5(acoustic))
 
-  Potential biases: the system may over prioritize genre making it highly possible for a song with matching mood and similar energy but different genre to get buried
-  the acoustic cutoff point renders similar songs one with say 0.49 and another 0.51 in different categories making one earn +0.5 points while the other doesn't.
+  Potential biases:
+      * the system may over prioritize genre making it highly possible for a song with matching mood and similar energy but different genre to get buried
+      * the acoustic cutoff point renders similar songs one with say 0.49 and another 0.51 in different categories making one earn +0.5 points while the other doesn't.
 
 ---
 
@@ -137,7 +138,7 @@ Examples:
 You will go deeper on this in your model card.
 
 ---
-it over favors represented genres and moods.
+it over-favors represented genres and moods.
 
 ## Reflection
 

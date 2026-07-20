@@ -44,8 +44,8 @@ You can include a simple diagram or bullet list if helpful.
   (2.0(genre) + 1.0(mood) + 1.0(energy) + 0.5(acoustic))
 
   Potential biases:
-      * the system may over prioritize genre making it highly possible for a song with matching mood and similar energy but different genre to get buried
-      * the acoustic cutoff point renders similar songs one with say 0.49 and another 0.51 in different categories making one earn +0.5 points while the other doesn't.
+  * the system may over prioritize genre making it highly possible for a song with matching mood and similar energy but different genre to get buried
+  * the acoustic cutoff point renders similar songs one with say 0.49 and another 0.51 in different categories making one earn +0.5 points while the other doesn't.
 
 ---
 

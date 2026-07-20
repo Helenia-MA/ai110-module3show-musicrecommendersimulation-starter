@@ -40,11 +40,11 @@ Avoid code here. Pretend you are explaining the idea to a friend who does not pr
 
 
 The song features I used, in order of their weight, are: genre(+2), mood(+1), energy(closeness value) and acousticness(+0.5)
-Similar user preferences are considered: favorite_genre, favorite_mood, target_energy and likes_acoustic; in order to be able to make the comparisons and calculate the song scores catered for each individual.
+The user preferences considered are: favorite_genre, favorite_mood, target_energy and likes_acoustic; in order to be able to make the comparisons with the corresponding song feature and calculate the song scores catered for each individual.
 
 Our model sums up all feature scores into a cumulative song score that we can then use in ranking to determine the ones to recommmend based on their values
 
-In the starter logic, I had included tempo, valence and danceability but realized in summing, their cumulative score led to a significant weight that could overpower genre match and mood in determining the scores.
+In the starter logic, I had included tempo, valence and danceability but realized after summing, their cumulative score led to a significant weight that could overpower genre match and mood in determining the scores.
 
 ---
 
@@ -66,7 +66,7 @@ The genres represented are: lofi, pop and one each for rock, ambient, jazz, indi
 
 the moods represented are: chill, happy, intense, and one each for relaxed, moody, focused, aggressive, melancholy, energetic, nostalgic, romantic, dark, uplifting, carefree
 
-some musical tastes missing include maybe language, and instrumental vs vocal preference
+some musical tastes missing that could be included: language, and instrumental vs vocal preference
 
 --- 
 
@@ -88,12 +88,11 @@ The strength of the system is found when a user's genre and mood both exist in t
 
 Where the system struggles or behaves unfairly.
 
-**Genre-representation filter bubble.** The biggest weakness I found is that the
-2.0 genre weight rewards users whose taste is well-represented in the catalog
-and quietly ignores everyone else. Of the 18 songs, `lofi` has 3 and `pop` has 2, while the other 13 genres have exactly one song each; so the Chill Lofi
-user got three genuine lofi matches in their top 5, but any fan of a niche genre can receive at most a single on-genre song before the list falls back to tracks that have nothing to do with their stated taste. In the "Rock lover who wants calm" run, showed this clearly: after the one rock song at #1, positions 2–5 were filled with classical, ambient, and lofi tracks chosen purely by the energy gap.
-The way we calculate the energy gap compounds the problem, where `1 - |song - target|` gives mid-energy songs (0.4–0.6) a high score for almost every user, so the same "safe" middle-of-the-road tracks keep surfacing as filler regardless of what the user actually asked for.
-Our system serves majority-genre and moderate-energy listeners well, and pushes minority-taste and extreme-energy users toward a homogenized set of recommendations.
+**Genre-representation filter bubble.** 
+The biggest weakness I found is that the 2.0 genre weight rewards users whose taste is well-represented in the catalog and quietly ignores everyone else. Of the 18 songs, `lofi` has 3 and `pop` has 2, while the other 13 genres have exactly one song each; so the Chill Lofi user got three genuine lofi matches in their top 5, but any fan of a niche genre can receive at most a single on-genre song before the list falls back to tracks that have nothing to do with their stated taste. 
+The "Rock lover who wants calm" run showed this clearly: after the one rock song at #1, positions 2–5 were filled with classical, ambient, and lofi tracks chosen purely by the energy gap.
+The way we calculate the energy closeness value, compounds the problem, where `1 - |song - target|` gives mid-energy songs (0.4–0.6) a high score for almost every user, so the same "safe" middle-of-the-road tracks keep being used as filler regardless of what the user actually asked for.
+Our system serves majority-genre and moderate-energy listeners well, and pushes minority-taste and extreme-energy users toward a homogenized set of recommendations that isn't necessarily in line with their preferences.
 
 ---
 
@@ -101,23 +100,19 @@ Our system serves majority-genre and moderate-energy listeners well, and pushes 
 
 How you checked whether the recommender behaved as expected.
 
-I built a small evaluation harness in `src/main.py` that runs the recommender
-against seven profiles and prints the top-5 songs plus a scoring breakdown for
-each. Three are realistic listeners; four are deliberately "adversarial" edge
-cases meant to try to trick the scoring logic. (Reminder: the recipe is
-`2.0*genre + 1.0*mood + 1.0*energy_closeness + 0.5*acoustic`, so the maximum
-possible score is 4.5.)
+I ran the recommender system against seven profiles and printed the top-5 songs plus a scoring breakdown for each. 
+Three are realistic listeners; four are deliberately "adversarial" edgecases meant to try to trick the scoring logic. 
 
+Max score: 4.5
 ### Normal profiles
 
 | Profile | Top result | Score | Behaved as expected? |
 | --- | --- | --- | --- |
-| High-Energy Pop (pop / happy / 0.9) | Sunrise City | 4.42 | ✅ Perfect genre+mood+acoustic match, only docked on energy. |
-| Chill Lofi (lofi / chill / 0.35, acoustic) | Library Rain | 4.50 | ✅ Hit the maximum possible score. |
-| Deep Intense Rock (rock / intense / 0.9) | Storm Runner | 4.49 | ✅ Clear winner; the only rock+intense track. |
+| High-Energy Pop (pop / happy / 0.9) | Sunrise City | 4.42 | Perfect genre+mood+acoustic match, only docked on energy. |
+| Chill Lofi (lofi / chill / 0.35, acoustic) | Library Rain | 4.50 | Hit the maximum possible score. |
+| Deep Intense Rock (rock / intense / 0.9) | Storm Runner | 4.49 | Clear winner; the only rock+intense track. |
 
-For all three, the intended "obvious" song rose to the top and the explanations
-matched intuition.
+For all three, the intended "obvious" song rose to the top and the explanations matched intuition.
 
 ### Adversarial / edge case profiles — what I looked for and what surprised me
 
@@ -144,10 +139,9 @@ matched intuition.
 
 ### Takeaways
 
-- The scorer is **robust to missing/unknown values** (unknown genre, mood, or
-  empty strings) — it degrades gracefully instead of erroring.
-- Ties are resolved deterministically (alphabetical by title), which is
-  predictable but arbitrary from a user's perspective.
+- The scorer distributes the scores well across the remaining features when one is missing or unknown, instead of erroring.
+- Ties are resolved deterministically (alphabetical by title), which keeps it consistent and on the user's end random enough since
+  this doesn't really favor any other song feature over the other.
 
 ### Terminal output (top 5 per profile)
 
@@ -293,9 +287,9 @@ Prompts:
 - Handling more complex user tastes
 
 
-* I would add more entries for user preferences, such as ranked genre/mood pref rather than just one and the preferred energy as a range rather than a specific value. This would help in curating a better recommendation system for the user.
-Collecting data for more users and making comparisons could also help in incorporating collaborative system for a more diverse but reliable recommendation system
-We can also include logic that takes user feedback such as likes or skips and adjusts the feature weights accordingly
+* I would add more entries for user preferences, such as ranked genre/mood pref rather than just one, and have the preferred energy as a range rather than a specific value. This would help in curating a better recommendation system for the user.
+* Collecting data for more users and making comparisons could also help in incorporating collaborative system for a more diverse but reliable recommendation system
+* We can also include logic that takes user feedback such as likes or skips and adjusts the feature weights accordingly
 ---
 
 ## 9. Personal Reflection
